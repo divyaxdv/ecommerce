@@ -1,0 +1,15 @@
+import React from "react";
+import CourseCard from "./CourseCard";
+import "./CourseGrid.css";
+
+const CoursesGrid = ({ courses, addToCart , cartItems}) => {
+  return (
+    <div className="courses-grid">
+      {courses.map((course) => (
+        <CourseCard key={course.id} course={course} addToCart={addToCart} cartItems={cartItems}/>
+      ))}
+    </div>
+  );
+};
+
+export default CoursesGrid;

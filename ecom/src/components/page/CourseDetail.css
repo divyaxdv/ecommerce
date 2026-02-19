@@ -1,0 +1,77 @@
+.course-detail {
+  padding: 40px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+.course-thumb {
+  width: 380px;
+  max-width: 38%;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.course-info {
+  flex: 1 1 60%;
+  max-width: 62%;
+}
+
+.course-title {
+  font-size: 28px;
+  margin: 0 0 8px 0;
+}
+
+.course-instructor {
+  margin: 0 0 10px 0;
+  color: #555;
+}
+
+.course-price {
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.course-info h3 {
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.course-info p, .course-info li {
+  color: #333;
+  line-height: 1.5;
+}
+
+.course-info ul {
+  padding-left: 20px;
+}
+
+.buy-button {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.buy-button.secondary {
+  background: #6c757d;
+}
+
+.buy-button:hover { background: #0069d9; }
+
+@media (max-width: 900px) {
+  .course-detail {
+    flex-direction: column;
+    padding: 24px;
+  }
+  .course-thumb {
+    width: 100%;
+    max-width: 100%;
+  }
+  .course-info { max-width: 100%; }
+}
