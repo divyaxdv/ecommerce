@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./CourseCard.css";
+import { useCart } from "../../context/CartContext";
 
-const CourseCard = ({ course, addToCart,cartItems }) => {
+const CourseCard = ({ course}) => {
   //const [isAdded, setIsAdded] = React.useState(false);
+  const { addToCart, cartItems } = useCart();
   const handleAddToCart = () => {
     //setIsAdded((prev) => !prev); 
     //if(cartItems.find((item) => item.id === course.id)) {

@@ -4,12 +4,16 @@ import SignupPage from "../page/SignupPage";
 import LoginPage from "../page/LoginPage"; 
 import Cart from "../page/Cart" 
 import { authService } from "../../services/authService";
+import { useCart } from "../../context/CartContext";
 
 
-const Navbar = ({ cartItems, removeFromCart, searchCourse }) => {
+const Navbar = ({ searchCourse }) => {
     const [openDialog, setOpenDialog] = useState('')
     const [user, setUser] = useState(authService.getUser())
     const [cartOpen, setCartOpen] = useState(false)
+
+    const { cartItems, removeFromCart } = useCart();
+
 
     const handleAuthSuccess = () => {
       setOpenDialog('')

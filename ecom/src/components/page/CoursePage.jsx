@@ -1,10 +1,11 @@
 import React from "react";
 import CoursesGrid from "../courses/CourseGrid";
+import { useCart } from "../../context/CartContext";
 
-const CoursesPage = ({ addToCart, cartItems, coursesData }) => {
+const CoursesPage = ({ coursesData }) => {
   // Debug check
   console.log("Courses Data Received:", coursesData);
-
+  const { addToCart, cartItems } = useCart();
   // Ensure we always work with an array
   const data = coursesData && coursesData.length > 0 ? coursesData : [];
 

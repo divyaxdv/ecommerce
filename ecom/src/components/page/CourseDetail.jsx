@@ -2,13 +2,15 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { coursesData } from "../courses/CourseData";
 import "./CourseDetail.css";
+import { useCart } from "../../context/CartContext";
 
-const CourseDetail = ({ courses, addToCart, cartItems }) => {
+const CourseDetail = ({ courses}) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const courseId = Number(id);
   const data = courses && courses.length ? courses : coursesData;
   const course = data.find((c) => c.id === courseId);
+  const { addToCart, cartItems } = useCart();
   const handleBuy=() => {
     addToCart(course);
   }

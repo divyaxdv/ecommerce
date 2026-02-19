@@ -8,12 +8,11 @@ import { Routes, Route } from "react-router-dom";
 const API_URL = "http://localhost:5001/api";
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // ============================
-  // ✅ Fetch Courses from Backend
+  // Fetch Courses
   // ============================
   useEffect(() => {
     const fetchCourses = async () => {
@@ -23,8 +22,6 @@ function App() {
 
         if (data.success) {
           setCourses(data.data);
-        } else {
-          console.log("Courses API failed:", data.message);
         }
       } catch (err) {
         console.error("Error fetching courses:", err);
@@ -37,93 +34,7 @@ function App() {
   }, []);
 
   // ============================
-  // ✅ Fetch Cart from Backend
-  // ============================
-  const fetchCart = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const res = await fetch(`${API_URL}/cart`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setCartItems(data.data);
-      }
-    } catch (err) {
-      console.error("Error fetching cart:", err);
-    }
-  };
-
-  // Fetch cart once when app loads
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
-  // ============================
-  // ✅ Add To Cart
-  // ============================
-  const addToCart = async (course) => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      alert("Please login first");
-      return;
-    }
-
-    // Prevent duplicates
-    if (cartItems.find((item) => item.courseId === course.id)) {
-      alert("Course already in cart");
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_URL}/cart/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ courseId: course.id }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        alert("Added to cart ✅");
-
-        // ✅ Refresh cart properly
-        fetchCart();
-      } else {
-        alert(data.message);
-      }
-    } catch (err) {
-      console.error("Error adding to cart:", err);
-    }
-  };
-
-  // ============================
-  // ✅ Remove From Cart
-  // ============================
-const removeFromCart = async (courseId) => {
-  const token = localStorage.getItem("token");
-
-  const res = await fetch(`${API_URL}/cart/${courseId}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  const data = await res.json();
-  if (data.success) fetchCart();
-};
-
-
-
-  // ============================
-  // ✅ Search Courses
+  // Search Courses
   // ============================
   const searchCourse = async (searchTerm) => {
     try {
@@ -143,21 +54,12 @@ const removeFromCart = async (courseId) => {
     }
   };
 
-  // ============================
-  // ✅ Render
-  // ============================
   return (
     <>
       {/* Navbar */}
-      <Navbar
-        cartItems={cartItems}
-        removeFromCart={removeFromCart}
-        searchCourse={searchCourse}
-      />
+      <Navbar searchCourse={searchCourse} />
 
-      {/* Routes */}
       <Routes>
-        {/* HOME PAGE */}
         <Route
           path="/"
           element={
@@ -166,25 +68,14 @@ const removeFromCart = async (courseId) => {
                 Loading courses...
               </div>
             ) : (
-              <CoursesPage
-                addToCart={addToCart}
-                cartItems={cartItems}
-                coursesData={courses} // ✅ FIXED HERE
-              />
+              <CoursesPage coursesData={courses} />
             )
           }
         />
 
-        {/* COURSE DETAIL PAGE */}
         <Route
           path="/courses/:id"
-          element={
-            <CourseDetail
-              courses={courses}
-              addToCart={addToCart}
-              cartItems={cartItems}
-            />
-          }
+          element={<CourseDetail courses={courses} />}
         />
       </Routes>
     </>
